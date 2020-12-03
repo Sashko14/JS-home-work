@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>Homework 2</title>
+    
+  </head>
+
+    <body>     
+    <!-- Завдання 2 --> 
+		<div class="">
+			<h3>Task 2. Converter</h3>
+			<div class="form-group">
+				<label>Exchange amount in UAH</label><br>
+				<input type="number" oninput="Calculate()" class="form-control" id="value1" />
+			</div>
+			<div class="form-group">
+			    <p> Choose currency</p>
+				<select onchange="Currency(); Calculate()" class="form-control" id="converter">
+				    <option disabled selected value="select">Select currency</option>
+					<option value="Dollar">USD</option>
+					<option value="Euro">EUR</option>
+					<option value="Oil">OIL</option>
+					<option value="Gold">GOLD</option>
+				</select>
+				<br>
+				<p>You will receive</p>
+				<input type="number" class="form-control" id="value2" disabled="disabled"/>
+			</div>			
+		</div>
+		
+    <!-- Завдання 3 --> 
+		<div class="">
+			<h3>Task 3. Enter your order value</h3>
+			<div class="form-group">
+				<label>Order value</label><br>
+				<input type="number" oninput="calcDiscount()" class="form-control" id="orderAmount" />
+			</div>
+			<div class="form-group">
+			    <p> Your discount is</p>
+				<br>
+				<input type="number" class="form-control" id="discountAmount" disabled="disabled"/>
+			</div>			
+		</div>
+		<br>
+		
+    <!-- Завдання 4 --> 
+		<h3>Task 4. Quiz</h3>
+		<div id="quiz"></div>
+        <button id="submit">Submit Quiz</button>
+        <div id="results"></div>
+		
+    <!-- Завдання 4 -->
+		<h3>Task 5. Number validation</h3>
+			<div class="number-field">
+				<label>Enter 3 digit number</label><br>
+				<input type="number" oninput="calcDiscount()" class="form-control" id="orderAmount" />
+			</div>
+		
+  
+    <script>
+        
+// Завдання 2
+    function Currency(){
+		buyCurrency = document.getElementById('converter').value;
+		return buyCurrency;
+	}
+    function Calculate(){
+        buyCurrency = Currency();
+        getAmount = document.getElementById('value1').value;
+        if(getAmount == ''){
+            document.getElementById('value2').value = '';
+        } else if (getAmount < 1) {
+            alert('Enter a valid amount');
+            document.getElementById('value1').value = '';
+        }else {
+            switch(buyCurrency){
+                case 'Dollar':
+                    document.getElementById('value2').value = getAmount / 28.5;
+                break;
+                case 'Euro':
+                    document.getElementById('value2').value = getAmount / 32.1;
+                break;
+                case 'Oil':
+                    document.getElementById('value2').value = getAmount / 1281.99;
+                break;
+                case 'Gold':
+                    document.getElementById('value2').value = getAmount / 1666.84;
+                break;
+            }
+        }
+    }
+        
+        
+// Завдання 3
+    function calcOrder(){
+		order = document.getElementById('orderAmount').value;
+		return order;
+	}
+    function calcDiscount(){
+        order = calcOrder();
+        discount = document.getElementById('discountAmount').value;
+        if (order < 0) {
+            alert('Enter a valid amount');
+            document.getElementById('orderAmount').value = '';
+        }else {
+            switch (true) {
+                case order < 500:
+                    document.getElementById('discountAmount').value = order * .01;
+                break;
+                case  500 <= order && order < 1000:
+                    document.getElementById('discountAmount').value = order * .05;
+                break;
+                default:
+                    document.getElementById('discountAmount').value = order * .1 + 200;
+            }
+        }
+    }
+        
+// Завдання 4
+// Не працює бонусне питання - 
+
+    (function() {    
+    
+    function buildQuiz(){
+      const output = [];
+
+      myQuestions.forEach(
+        (currentQuestion, questionNumber) => {
+          const answers = [];
+          for(letter in currentQuestion.answers){
+            answers.push(
+              `<label>
+                <input type="radio" name="question${questionNumber}" value="${letter}">
+                ${letter} :
+                ${currentQuestion.answers[letter]}
+              </label>`
+            );
+          }
+          output.push(
+            `<div class="question"> ${currentQuestion.question} </div>
+            <div class="answers"> ${answers.join('')} </div>`
+          );
+        }
+      );
+        
+      quizContainer.innerHTML = output.join('');        
+    }
+        
+        
+
+    function showResults(){
+        const answerContainers = quizContainer.querySelectorAll('.answers');
+        let numCorrect = 0;
+        
+        myQuestions.forEach ( (currentQuestion, questionNumber) => {
+        const answerContainer = answerContainers[questionNumber];
+        const selector = `input[name=question${questionNumber}]:checked`;
+        const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+        if(userAnswer === currentQuestion.correctAnswer){
+          numCorrect++;
+          answerContainers[questionNumber].style.color = 'lightgreen';
+        } else{
+          answerContainers[questionNumber].style.color = 'red';
+        }
+      });
+        
+        if(numCorrect < 5) {
+            resultsContainer.innerHTML = `You scored ${numCorrect} out of ${myQuestions.length} points`;}
+        else {
+            resultsContainer.innerHTML = `Congratulations! You have correctly answered all questions and scored 6 points`;    
+        }        
+    }
+        /* Не так зрозумів завдання і пробував додати бонусне питання, але воно неправильно працює
+        
+        if(numCorrect === 5) {
+            alert('You have 5 correct answers and can get a bonus point by answering additional question!');
+            addQuestion();
+            
+            bonusQuestions.forEach ( (currentQuestion, questionNumber) => {
+            const answerContainer = answerContainers[questionNumber];
+            const selector = `input[name=question${questionNumber}]:checked`;
+            const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+            if(userAnswer === currentQuestion.correctAnswer){
+              numCorrect++;
+              answerContainers[questionNumber].style.color = 'lightgreen';
+            } else{
+              answerContainers[questionNumber].style.color = 'red';
+            }
+          });
+        }
+        */
+        
+    /*function addQuestion() {
+        const output = [];
+
+      bonusQuestion.forEach(
+        (currentQuestion, questionNumber) => {
+          const answers = [];
+          for(letter in currentQuestion.answers){
+            answers.push(
+              `<label>
+                <input type="radio" name="question${questionNumber}" value="${letter}">
+                ${letter} :
+                ${currentQuestion.answers[letter]}
+              </label>`
+            );
+          }
+          output.push(
+            `<div class="question"> ${currentQuestion.question} </div>
+            <div class="answers"> ${answers.join('')} </div>`
+          );
+        }
+      );        
+      quizContainer.innerHTML = output.join('');  
+    }
+       */ 
+     
+        
+    const quizContainer = document.getElementById('quiz');
+    const resultsContainer = document.getElementById('results');
+    const submitButton = document.getElementById('submit');
+    const myQuestions = [
+      {
+        question: "What is theh highest mountain?",
+        answers: {
+          a: "Annapurna",
+          b: "K2",
+          c: "Everest"
+        },
+        correctAnswer: "c"
+      },
+      {
+        question: "What is the smallest continent?",
+        answers: {
+          a: "Antarctica",
+          b: "North America",
+          c: "Australia/Oceania"
+        },
+        correctAnswer: "c"
+      },
+      {
+        question: "What is the longest river on Earth?",
+        answers: {
+          a: "Amazon",
+          b: "Parana",
+          c: "Yangtze",
+          d: "Nile"
+        },
+        correctAnswer: "d"
+      },
+        {
+        question: "What is the largest ocean?",
+        answers: {
+          a: "Pacific Ocean",
+          b: "Atlantic Ocean",
+          c: "Indian Ocean",
+          d: "Arctic Ocean"
+        },
+        correctAnswer: "a"
+      },
+        {
+        question: "Where is Mont Blanc located?",
+        answers: {
+          a: "Asia",
+          b: "Europe",
+          c: "North America",
+          d: "Africa"
+        },
+        correctAnswer: "b"
+      }];
+    /*
+    const bonusQuestion = [
+        {
+        question: "What is the largest desert on Earth?",
+        answers: {
+          a: "Sahara",
+          b: "Gobi",
+          c: "Antarctic",
+          d: "Australian"
+        },
+        correctAnswer: "c"
+        }];*/
+    
+    //addQuestion();
+    buildQuiz();
+    submitButton.addEventListener('click', showResults);
+
+}) ();
+        
+        
+/* Завдання 4 */
+        function validateNumber() {
+            let userNumber = number(prompt('Enter a 3 digin number'));
+            for (i = 0; i < userNumber.length; i++) {        	
+              if (/^[0-9]{3,3}$/.test(allFields[i].value)) {        
+                return true;
+              } else {
+                //alert('Max 3 digits are allowed!'); // you can write your own logic to warn users 
+                showErrorMessage(classNameOfField);
+                return false;
+              }
+            }
+          }
+        
+        
+        
+    </script>
+    
+  </body>
+</html>
