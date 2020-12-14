@@ -1,21 +1,4 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-
-    <title>Homework 3</title>
-
-  </head>
-
-  <body>
-    <h1></h1>
-
-
-
-    <script>
-        'use strict';
-        
-    //1.  Знайдіть суму всіх цифр від 1 до 100.
+//1.  Знайдіть суму всіх цифр від 1 до 100.
         var sum = 0;
         for (var i = 0; i <= 100; i++) {
             sum += i;
@@ -24,20 +7,24 @@
           
         
     //2.  Є масив [1, 2, 3, 4, 5]. З допомогою  цикла for вивести всі елементи на екран.
-        //Зроблено під час лекції
+        
+        const array = [1, 2, 3, 4, 5];
+        for (let i = 0; i < array.length; i++) {
+            console.log(array[i]);
+        }
         
         
     //3. Є масив [-1, 22, 3, 44, 5]. Виведіть максимальне значення
         var arr = [-1, 22, 3, 44, 5];
         var max = Math.max(...arr);
         console.log(max);
+        
 
     //4. Попросити юзера ввести 8 чисел і скільки він ввів додатніх, відємних та нулів. Вивести статистику на екран. Також достатньо тільки 1 змінної для отримання даних від юзера.
       
         let userInput = prompt('Enter 8 numbers separated by comma');
         const arrString = userInput.split(',');
-        const arrNumber = arrString.map((i) => Number(i));
-        
+        const arrNumber = arrString.map((i) => Number(i))        
 
         function numCount(arrNumber) {
             let count = [0,0,0];
@@ -54,6 +41,7 @@
         
         let result = numCount(arrNumber);
         alert('You have entered ' + result[2] + ' positive numbers, ' + result[0] + ' negative numbers and ' + result[1] + ' zeroes!');
+        
 
     //5. Надрукуйте табличку множення для числа  8 від 1 до 9. 8 х 1 = 8
                 
@@ -67,13 +55,20 @@
         }
         document.write("</table>");
   
-      
+    
     //6. Є масив з елементами 2, 5, 9, 15, 0, 4. З допомогою цикла for і оператора if вивести на екран цифри, які більше 3-х, але менше 10.
-         
-       
-
         
-            
-    </script>
-  </body>
-</html>
+        let initial = [2, 5, 9, 15, 0, 4];
+        let output = [];
+        for (let i = 0; i < initial.length; i++) {
+            if( 3 < initial[i] && initial[i] < 10) {
+                output.push(initial[i]);
+            } else {
+                ;
+            }
+        }
+        console.log(output);
+        
+    //7. Створити калькулятор який буде зациклений. Запитати у юзера 2 числа та знак , провести математичну операцію, далі вивести результат і спитатись чи хоче юзер повторити?
+        //Напевно не зрозумів самого завдання
+        
